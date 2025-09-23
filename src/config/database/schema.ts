@@ -45,6 +45,12 @@ export const documentTypeEnum = pgEnum("document_type", [
   "Other",
 ]);
 
+export const userStatusEnum = pgEnum("user_status", [
+  "active",
+  "suspended",
+  "inactive",
+]);
+
 // --- User Table ---
 export const users = pgTable(
   "users",
@@ -55,9 +61,9 @@ export const users = pgTable(
     name: text("name").notNull(),
     email: text("email").notNull().unique(),
     passwordHash: text("password_hash").notNull(),
-    documentType: documentTypeEnum("document_type"),
-    documentNumber: text("document_number").unique(),
-    status: text("status").notNull().default("active"),
+    documentType: documentTypeEnum("document_type").default("CPF").notNull(),
+    documentNumber: text("document_number").unique().notNull(),
+    status: userStatusEnum("status").notNull().default("active"),
     role: userRoleEnum("role").notNull().default("attendee"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").default(sql`now()`),
