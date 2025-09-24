@@ -6,6 +6,10 @@ import type { IUserService } from "../shared/interfaces/users/UserService.ts";
 import { UserService } from "../modules/users/services/user.service.ts";
 import type { IUserController } from "../shared/interfaces/users/UserController.ts";
 import { UserController } from "../modules/users/controllers/user.controller.ts";
+import { AuthController } from "../modules/auth/controllers/auth.controller.ts";
+import { AuthService } from "../modules/auth/services/auth.service.ts";
+import type { IAuthController } from "../shared/interfaces/auth/AuthController.ts";
+import type { IAuthService } from "../shared/interfaces/auth/AuthService.ts";
 
 const container = new Container();
 
@@ -17,5 +21,11 @@ container.bind<IUserService>(Symbol.for("UserService")).to(UserService);
 container
   .bind<IUserController>(Symbol.for("UserController"))
   .to(UserController);
+
+// Auth
+container.bind<IAuthService>(Symbol.for("AuthService")).to(AuthService);
+container
+  .bind<IAuthController>(Symbol.for("AuthController"))
+  .to(AuthController);
 
 export { container };
