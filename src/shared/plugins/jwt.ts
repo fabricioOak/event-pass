@@ -17,16 +17,14 @@ export default fp(async (app: FastifyInstance) => {
         if (!token) {
           reply
             .status(401)
-            .send({ success: false, message: "Token not found" });
+            .send({ success: false, message: "User not authenticated" });
           return;
         }
         const decoded = app.jwt.verify<UserPayload>(token);
         request.user = decoded;
       } catch (err) {
         console.error(err);
-        reply
-          .status(401)
-          .send({ success: false, message: "Token inválido ou expirado" });
+        reply.status(401).send({ success: false, message: "Invalid token" });
       }
     }
   );
